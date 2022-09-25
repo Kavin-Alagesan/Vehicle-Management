@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+{% include 'navbar.html'%}
+
+
+<div class="container pt-5">
+    <!-- Message block -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success text-center" role="alert">
+        {{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    <!-- End message block -->
+    <div class="container p-5 my-5 border bg-secondary text-white">
+        <label id="updateRow" style="display: none"></label>
+        <table class="table table-bordered text-white" style="border:5px solid rgb(253, 251, 251);" width="100%;"
+            id="tableOrderList">
+            <thead>
+                <h3>Vehicle Type List</h3>
+            </thead>
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>vehicle_type</th>
+                    <th >Status</th>
+                    <th >Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in vehicle_type_data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td style="text-align:center">{{data.vehicle_type}}</td>
+                    <td style="text-align:center"><button type="submit" class="btn btn-success" data-bs-toggle="modal"
+                            data-bs-target="#btnEditVehicleType{{data.vehicle_type_id}}">Edit</button></td>
+                    <td><a type="button" class="btn btn-danger" href="{% url 'delete_type' data.vehicle_type_id %}"
+                            onclick="return confirm('Delete?')">Delete</a></td>
+                </tr>
+
+                <!-- Modal -->
+                <div class="modal fade" id="btnEditVehicleType{{data.vehicle_type_id}}" tabindex="-1"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <form action="{% url 'update_type' data.vehicle_type_id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Edit Vehicle Type</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row mb-3 needs-validation">
+                                        <label for="task" class="col-sm-4 col-form-label text-dark">Vehicle Type</label>
+                                        <input type="text" class="col-sm-5" name="txtVehicleType" id="txtVehicleType"
+                                            value={{data.vehicle_type}}>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a type="button" class="btn btn-primary" style="float: right;" href="{% url 'super_admin_func' %}">Admin Page</a>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

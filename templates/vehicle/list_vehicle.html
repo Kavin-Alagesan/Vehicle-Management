@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+
+{% block content %}
+{% include 'navbar.html'%}
+
+<div class="container pt-5">
+    <!-- Message block -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success text-center" role="alert">
+        {{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    <!-- End message block -->
+    <div class="container p-5 my-5 border bg-secondary text-white">
+        <label id="updateRow" style="display: none"></label>
+        <table class="table table-bordered text-white" style="border:5px solid rgb(253, 251, 251);" width="100%;"
+            id="tableOrderList">
+            <thead>
+                <h3>Vehicle List</h3>
+            </thead>
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Vehicle Number</th>
+                    <th>Vehicle Type</th>
+                    <th>Vehicle Model</th>
+                    <th>Vehicle Description</th>
+                    <th>Status</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in response %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td style="text-align:center">{{data.vehicle_number}}</td>
+                    <td style="text-align:center">{{data.vehicle_type_id.vehicle_type}}</td>
+                    <td style="text-align:center">{{data.vehicle_model}}</td>
+                    <td style="text-align:center">{{data.vehicle_description}}</td>
+                    <td style="text-align:center"><button type="submit" class="btn btn-success" data-bs-toggle="modal"
+                            data-bs-target="#btnEditVehicle{{data.vehicle_id}}">Edit</button>
+                    </td>
+                    <td><a type="button" class="btn btn-danger" href="{% url 'delete_vehicle' data.vehicle_id %}" onclick="return confirm('Delete?')">Delete</a>
+                    </td>
+                </tr>
+
+                <!-- Modal for edit vehicle-->
+                <div class="modal fade" id="btnEditVehicle{{data.vehicle_id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <form action="{% url 'update_vehicle' data.vehicle_id %}" name="formVehicleID" method="POST">
+                        {% csrf_token %}
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-dark" id="exampleModalLabel">Edit Vehicle Details</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row mb-3 needs-validation">
+                                        <label for="task" class="col-sm-4 col-form-label text-dark">Vehicle
+                                            Number</label>
+                                        <input type="text" class="col-sm-5" name="txtVehicleNumber"
+                                            id="txtVehicleNumber" value={{data.vehicle_number}}>
+                                    </div>
+                                    <div class="row mb-3 needs-validation">
+                                        <label for="task" class="col-sm-4 col-form-label text-dark">Vehicle Type</label>
+                                        <select class="col-sm-5 col-form-select" id="ddlVehicleType"
+                                            name="ddlVehicleType">
+                                            <option value="{{ data.vehicle_type_id }}">{{data.vehicle_type_id.vehicle_type}}
+                                            </option>
+                                            {% for data in vehicle_type_data %}
+                                            <optgroup>
+                                                <option value="{{ data.vehicle_type_id }}">{{ data.vehicle_type }}
+                                                </option>
+                                            </optgroup>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="row mb-3 needs-validation">
+                                        <label for="task" class="col-sm-4 col-form-label text-dark">Vehicle
+                                            Model</label>
+                                        <input type="text" class="col-sm-5" name="txtVehicleModel" id="txtVehicleModel"
+                                            value={{data.vehicle_model}}>
+                                    </div>
+                                    <div class="row mb-3 needs-validation">
+                                        <label for="task" class="col-sm-4 col-form-label text-dark">Vehicle
+                                            Description</label>
+                                        <input type="text" class="col-sm-5" name="txtVehicleDescription"
+                                            id="txtVehicleDescription" value={{data.vehicle_description}}>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" id="btnHiddenEditVehicle" name="btnHiddenEditVehicle"
+                                        value="EditVehicle" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}

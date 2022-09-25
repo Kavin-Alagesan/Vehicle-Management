@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+{% include 'navbar.html'%}
+
+<div class="container p-5 my-5 pt-5">
+    <!-- Message block -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success text-center" role="alert">
+        {{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    <!-- End message block -->
+    <form name="formCreateRole" class="needs-validation" id="formCreateRole" method="POST"
+        action="{% url 'super_admin_func' %}" onsubmit="return validateFormRole()">
+        {% csrf_token %}
+        <div class="container bg-secondary text-white p-5 my-5 border">
+            <h3>Create User Role</h3>
+            <div class="row justify-content-start">
+                <label class="col-sm-2 col-form-label">Username</label>
+                <select class="col-sm-2 col-form-select" id="ddlUsername" name="ddlUsername" required>
+                    <option value="0" selected="selected">---Select Username---</option>
+                    {% for data in user_data %}
+                    <optgroup>
+                        <option value="{{ data.id }}">{{ data.username }}
+                        </option>
+                    </optgroup>
+                    {% endfor %}
+                </select>
+                <div style="color:red;">{{response.user|join:""}}</div>
+            </div><br>
+            <div class="row justify-content-start">
+                <label class="col-sm-2 col-form-label">Role</label>
+                <select class="col-sm-2 col-form-select" id="ddlRole" name="ddlRole" required>
+                    <option value="0" selected="selected">---Select Role---</option>
+                    <option value="SUPER_ADMIN">SUPER_ADMIN</option>
+                    <option value="ADMIN">ADMIN</option>
+                    <option value="USER">USER</option>
+                </select>
+                <div style="color:red;">{{response.role|join:""}}</div>
+            </div><br>
+            <div class="mb-3">
+                <div style="text-align:center">
+                    <button class="btn btn-primary" name="btnSaveRole" value="SaveOrder" type="submit">Save
+                        Role</button>
+                    <a href='{% url "super_admin_func" %}' class="btn btn-primary" type="button">Cancel</button></a><br>
+                    <a href='{% url "list_user_role" %}' class="btn btn-primary" type="button" style="float:right">List
+                        user role</button></a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+    <form name="formCreateVehicle" class="needs-validation" id="formCreateVehicle" method="POST"
+        action="{% url 'super_admin_func' %}" onsubmit="return validateFormVehicle()">
+        {% csrf_token %}
+        <div class="container bg-secondary text-white p-5 my-5 border">
+            <h3>Create Vehicle Details</h3>
+            <div class="row justify-content-start">
+                <label class="col-sm-2 col-form-label">Vehicle Number</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" name="txtVehicleNumber" id="txtVehicleNumber" required>
+                    <div style="color:red;">{{response.vehicle_number|join:""}}</div>
+                </div>
+            </div>
+            <br>
+            <div class="row justify-content-start">
+                <label class="col-sm-2 col-form-label">Vehicle Type</label>
+                <select class="col-sm-2 col-form-select" id="ddlVehicleType" name="ddlVehicleType" required>
+                    <option value="0" selected="selected">---Select Type---</option>
+                    {% for data in vehicle_type_data %}
+                    <optgroup>
+                        <option value="{{ data.vehicle_type_id }}">{{ data.vehicle_type }}
+                        </option>
+                    </optgroup>
+                    {% endfor %}
+                </select>
+                <div style="color:red;">{{response.vehicle_type_id|join:""}}</div>
+            </div><br>
+            <div class="row justify-content-start">
+                <label class="col-sm-2 col-form-label">Vehicle Model</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" name="txtVehicleModel" id="txtVehicleModel" required>
+                    <div style="color:red;">{{response.vehicle_model|join:""}}</div>
+                </div>
+            </div>
+            <br>
+            <div class="row justify-content-start">
+                <label class="col-sm-2 col-form-label">Vehicle Description</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" name="txtVehicleDescription" id="txtVehicleDescription" required>
+                    <div style="color:red;">{{response.vehicle_description|join:""}}</div>
+                </div>
+            </div>
+            <br>
+            <div class="mb-3">
+                <div style="text-align:center">
+                    <button class="btn btn-primary" name="btnSaveDetails" value="SaveDetails" type="submit">Save
+                        Details</button>
+                    <a href='{% url "super_admin_func" %}' class="btn btn-primary" type="button">Cancel</button></a><br>
+                    <a href='{% url "admin_func" %}' class="btn btn-primary" type="button" style="float:right">List
+                        Vehicle Details</button></a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+    <form name="formCreateType" class="needs-validation" id="formCreateType" method="POST"
+        action="{% url 'super_admin_func' %}" onsubmit="return validateFormType()">
+        {% csrf_token %}
+        <div class="container bg-secondary text-white p-5 my-5 border">
+            <h3>Create Vehicle type</h3>
+            <div class="row justify-content-start">
+                <label class="col-sm-2 col-form-label">Vehicle type</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" name="txtType" id="txtType" required>
+                    <div style="color:red;">{{response.vehicle_type|join:""}}</div>
+                </div>
+            </div><br>
+            <div class="mb-3">
+                <div style="text-align:center">
+                    <button class="btn btn-primary" name="btnSaveType" value="SaveType" type="submit">Save Type</button>
+                    <a href='{% url "super_admin_func" %}' class="btn btn-primary" type="button">Cancel</button></a><br>
+                    <a href='{% url "list_vehicle_type" %}' class="btn btn-primary" type="button"
+                        style="float:right">List Vehicle Types</button></a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

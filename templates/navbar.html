@@ -1,0 +1,21 @@
+{% load static %}
+
+
+    <!-- Page Content  -->
+<div id="content">
+ <nav class="navbar navbar-expand-lg navbar-custom fixed-top pb-2">
+            <div class="container-fluid">               
+                <div class="collapse navbar-collapse  w-100 order-3 dual-collapse2">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active"  style="color:white ;" aria-current="page" href="#">{{Home}}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"  style="color:white ;" href="{% url 'user_logout' %}">Logout</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+

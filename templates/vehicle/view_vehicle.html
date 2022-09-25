@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+{% include 'navbar.html'%}
+
+
+<div class="container pt-5">
+    <!-- Message block -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success text-center" role="alert">
+        {{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    <!-- End message block -->
+    <div class="container p-5 my-5 border bg-secondary text-white">
+        <label id="updateRow" style="display: none"></label>
+        <table class="table table-bordered text-white" style="border:5px solid rgb(253, 251, 251);" width="100%;"
+            id="tableOrderList">
+            <thead>
+                <h3>Vehicle List</h3>
+            </thead>
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Vehicle Number</th>
+                    <th>Vehicle Type</th>
+                    <th>Vehicle Model</th>
+                    <th>Vehicle Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicle_data in vehicle_data_list %}
+                <tr>
+                    <td style="text-align:center">{{ forloop.counter }}</td>
+                    <td style="text-align:center">{{vehicle_data.vehicle_number}}</td>
+                    <td style="text-align:center">{{vehicle_data.vehicle_type_id.vehicle_type}}</td>
+                    <td style="text-align:center">{{vehicle_data.vehicle_model}}</td>
+                    <td style="text-align:center">{{vehicle_data.vehicle_model}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
